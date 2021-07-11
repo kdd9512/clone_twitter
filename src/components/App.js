@@ -1,11 +1,14 @@
-import React from 'react';
-import AppRouter from "./Router";
+import React, {useState} from 'react';
+import AppRouter from "components/Router";
+import { authService } from "../fbase";
 
 function App() {
+    const [isLogin, setIsLogin] = useState(authService.currentUser);
   return (
-    <div>
-      <AppRouter/>
-    </div>
+    <>
+      <AppRouter isLogin={isLogin}/>
+        <footer>&copy; {new Date().getFullYear()} clone_twitter </footer>
+    </>
   );
 }
 
