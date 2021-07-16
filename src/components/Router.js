@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Navi from "./Navi";
 import Profile from "../routes/Profile";
 
-const AppRouter = ({isLogin}) => {
+const AppRouter = ({isLogin,userObj}) => {
     return (
         <Router>
             {isLogin && <Navi/>}
@@ -13,7 +13,7 @@ const AppRouter = ({isLogin}) => {
                 {isLogin ? (
                     <>
                         <Route exact path="/">
-                            <Home/>
+                            <Home userObj={userObj}/>
                         </Route>
                         <Route exact path="/profile">
                             <Profile/>
