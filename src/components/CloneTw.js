@@ -11,6 +11,7 @@ const CloneTw = ({cloneTwObj, isOwner}) => {
             await dbService.doc(`cloneTw/${cloneTwObj.id}`).delete();
         }
     };
+
     const toggleEditing = () => setEdit((prev) => !prev);
 
     const onSubmit = async (e) => {
@@ -32,16 +33,20 @@ const CloneTw = ({cloneTwObj, isOwner}) => {
         <div>
             {edit ? (
                 <>
-                    <form onSubmit={onSubmit}>
-                        <input
-                            onChange={onChange}
-                            type="text"
-                            placeholder="Edit this Message"
-                            value={newEdit}
-                            required/>
-                        <input type="submit" value="Update cloneTw" />
-                    </form>
-                    <button onClick={toggleEditing}>CANCEL</button>
+                    {isOwner && (
+                        <>
+                            <form onSubmit={onSubmit}>
+                                <input
+                                    onChange={onChange}
+                                    type="text"
+                                    placeholder="Edit this Message"
+                                    value={newEdit}
+                                    required/>
+                                <input type="submit" value="Update cloneTw" />
+                            </form>
+                            <button onClick={toggleEditing}>CANCEL</button>
+                        </>
+                    )}
                 </>
             ) : (
                 <>
