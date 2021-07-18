@@ -5,6 +5,7 @@ import CloneTw from "../components/CloneTw";
 const Home = ({userObj}) => {
     const [cloneTw, setCloneTw] = useState("");
     const [newTw, setNewTw] = useState([]);
+    const [uploadFile, setUploadFile] = useState();
 
     const getNewTw = async () => {
         const ntw = await dbService.collection("cloneTw").get();
@@ -54,7 +55,10 @@ const Home = ({userObj}) => {
         const previewFile = files[0];
         const reader = new FileReader();
         reader.onloadend = (finEv) => {
-            console.log(finEv)
+            const {
+                currentTarget:{result},
+            } = finEv;
+            setUploadFile(result);
         }
         reader.readAsDataURL(previewFile);
     };
@@ -76,6 +80,9 @@ const Home = ({userObj}) => {
                     type="submit"
                     value="cloneTw"
                 />
+
+                {uploadFile && <img src={uploadFile} width="50px" height="50px"/>}
+                {/*파일이 업로드 되었을 때에만 img 태그가 보임*/}
             </form>
             <div>
                 {newTw.map(cloneTw => (
