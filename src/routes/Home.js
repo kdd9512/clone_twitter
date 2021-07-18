@@ -38,11 +38,25 @@ const Home = ({userObj}) => {
         });
         setCloneTw("");
     };
+
     const onChange = (e) => {
         const {
             target: {value},
         } = e;
         setCloneTw(value);
+    };
+
+    const onFileChange = (e) => {
+        const {
+            target:{files},
+        } = e;
+
+        const previewFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finEv) => {
+            console.log(finEv)
+        }
+        reader.readAsDataURL(previewFile);
     };
 
     return (
@@ -55,6 +69,9 @@ const Home = ({userObj}) => {
                     placeholder="What on your mind?"
                     maxLength={120}
                 />
+                <input type="file" accept="image/*" onChange={onFileChange}/>
+                {/*어떤 종류의 이미지만을 허용하는 input*/}
+
                 <input
                     type="submit"
                     value="cloneTw"
@@ -66,7 +83,6 @@ const Home = ({userObj}) => {
                         key={cloneTw.id}
                         cloneTwObj={cloneTw}
                         isOwner={cloneTw.creatorId === userObj.uid}
-
                     />
                 ))}
             </div>

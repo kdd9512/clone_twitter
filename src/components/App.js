@@ -18,7 +18,6 @@ function App() {
   return (
     <>
         {init? <AppRouter isLogin={Boolean(userObj)} userObj={userObj}/> : "Initializing"}
-        <footer>&copy; {new Date().getFullYear()} clone_twitter </footer>
     </>
   );
 }
