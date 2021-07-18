@@ -20,14 +20,14 @@ const Home = ({userObj}) => {
 
     useEffect(() => {
         getNewTw();
-        dbService.collection("cloneTw").orderBy("createdAt","desc")
+        dbService.collection("cloneTw").orderBy("createdAt", "desc")
             .onSnapshot(snapshot => {
-            const cloneTwArray = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            setNewTw(cloneTwArray);
-        })
+                const cloneTwArray = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setNewTw(cloneTwArray);
+            })
     }, []);
 
     const onSubmit = async (e) => {
@@ -49,19 +49,21 @@ const Home = ({userObj}) => {
 
     const onFileChange = (e) => {
         const {
-            target:{files},
+            target: {files},
         } = e;
 
         const previewFile = files[0];
         const reader = new FileReader();
         reader.onloadend = (finEv) => {
             const {
-                currentTarget:{result},
+                currentTarget: {result},
             } = finEv;
             setUploadFile(result);
         }
         reader.readAsDataURL(previewFile);
     };
+
+    const cancelUpload = () => setUploadFile(null);
 
     return (
         <div>
@@ -81,7 +83,12 @@ const Home = ({userObj}) => {
                     value="cloneTw"
                 />
 
-                {uploadFile && <img src={uploadFile} width="50px" height="50px"/>}
+                {uploadFile && (
+                    <div>
+                        <img src={uploadFile} width="50px" height="50px"/>
+                        <button onClick={cancelUpload}>CANCEL UPLOAD</button>
+                    </div>
+                )}
                 {/*파일이 업로드 되었을 때에만 img 태그가 보임*/}
             </form>
             <div>
