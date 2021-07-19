@@ -6,7 +6,7 @@ import CloneTw from "../components/CloneTw";
 const Home = ({userObj}) => {
     const [cloneTw, setCloneTw] = useState("");
     const [newTw, setNewTw] = useState([]);
-    const [uploadFile, setUploadFile] = useState();
+    const [uploadFile, setUploadFile] = useState("");
 
     const getNewTw = async () => {
         const ntw = await dbService.collection("cloneTw").get();
@@ -33,15 +33,21 @@ const Home = ({userObj}) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const fireRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
-        const resp = await fireRef.putString(uploadFile, "data_url");
-        const uploadedUrl = await resp.ref.getDownloadURL();
+        let uploadedUrl = "";
+
+        if (uploadFile != "") {
+            const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+            const resp = await fileRef.putString(uploadFile, "data_url");
+            uploadedUrl = await resp.ref.getDownloadURL();
+        }
+
         const tweet = {
             text: cloneTw,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             uploadedUrl,
         };
+
         await dbService.collection("cloneTw").add(tweet);
         setCloneTw("");
         setUploadFile("");
@@ -92,7 +98,7 @@ const Home = ({userObj}) => {
 
                 {uploadFile && (
                     <div>
-                        <img src={uploadFile} width="50px" height="50px"/>
+                        <img src={uploadFile} width="50px" height="50px" alt="uploaded image file"/>
                         <button onClick={cancelUpload}>CANCEL UPLOAD</button>
                     </div>
                 )}

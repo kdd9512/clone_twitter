@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {dbService} from "../fbase";
+import {dbService, storageService} from "../fbase";
 
 const CloneTw = ({cloneTwObj, isOwner}) => {
     const [edit, setEdit] = useState(false); // 수정모드인가 아닌가를 따지기 위함.
@@ -9,6 +9,7 @@ const CloneTw = ({cloneTwObj, isOwner}) => {
         const conf = window.confirm("Are you sure you want to delete this message?");
         if (conf) {
             await dbService.doc(`cloneTw/${cloneTwObj.id}`).delete();
+            await storageService.refFromURL(cloneTwObj.uploadedUrl).delete();
         }
     };
 
