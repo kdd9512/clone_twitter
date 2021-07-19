@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {dbService} from "../fbase";
+import {v4 as uuidv4} from "uuid";
+import {dbService, storageService} from "../fbase";
 import CloneTw from "../components/CloneTw";
 
 const Home = ({userObj}) => {
@@ -32,12 +33,18 @@ const Home = ({userObj}) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await dbService.collection("cloneTw").add({
+        const fireRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+        const resp = await fireRef.putString(uploadFile, "data_url");
+        const uploadedUrl = await resp.ref.getDownloadURL();
+        const tweet = {
             text: cloneTw,
             createdAt: Date.now(),
             creatorId: userObj.uid,
-        });
+            uploadedUrl,
+        };
+        await dbService.collection("cloneTw").add(tweet);
         setCloneTw("");
+        setUploadFile("");
     };
 
     const onChange = (e) => {
