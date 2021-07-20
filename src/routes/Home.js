@@ -8,19 +8,19 @@ const Home = ({userObj}) => {
     const [newTw, setNewTw] = useState([]);
     const [uploadFile, setUploadFile] = useState("");
 
-    const getNewTw = async () => {
-        const ntw = await dbService.collection("cloneTw").get();
-        ntw.forEach((document) => {
-            const cloneTwObj = {
-                ...document.data(),
-                id: document.id,
-            };
-            setNewTw(prev => [cloneTwObj, ...prev]);
-        });
-    }
+    // const getNewTw = async () => {
+    //     const ntw = await dbService.collection("cloneTw").get();
+    //     ntw.forEach((document) => {
+    //         const cloneTwObj = {
+    //             ...document.data(),
+    //             id: document.id,
+    //         };
+    //         setNewTw(prev => [cloneTwObj, ...prev]);
+    //     });
+    // }
 
     useEffect(() => {
-        getNewTw();
+        // getNewTw();
         dbService.collection("cloneTw").orderBy("createdAt", "desc")
             .onSnapshot(snapshot => {
                 const cloneTwArray = snapshot.docs.map(doc => ({
