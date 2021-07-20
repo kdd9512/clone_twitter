@@ -11,7 +11,11 @@ export default ({userObj}) => {
     };
 
     const getCloneTw = async() => {
-        const tw = await dbService.collection("cloneTw").where()
+        const tw = await dbService.collection("cloneTw")
+            .where("creatorId","==",userObj.uid)
+            .orderBy("createdAt")
+            .get();
+        console.log(tw.docs.map((doc) => doc.data()))
     }
 
     useEffect(() => {
