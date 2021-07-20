@@ -1,14 +1,22 @@
-import React from "react";
-import {authService} from "../fbase";
+import React, {useEffect} from "react";
+import {authService, dbService} from "../fbase";
 import {useHistory} from "react-router-dom";
 
-export default () => {
+export default ({userObj}) => {
 
     const history = useHistory();
     const onLogOutClick = () => {
         authService.signOut()
         history.push("/");
     };
+
+    const getCloneTw = async() => {
+        const tw = await dbService.collection("cloneTw").where()
+    }
+
+    useEffect(() => {
+        getCloneTw();
+    },[])
 
     return (
         <>
