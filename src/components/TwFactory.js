@@ -13,8 +13,8 @@ const TwFactory = ({userObj}) => {
             return;
         }
         e.preventDefault();
-        let uploadedUrl = "";
 
+        let uploadedUrl = "";
         if (uploadFile !== "") {
             const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
             const resp = await fileRef.putString(uploadFile, "data_url");
