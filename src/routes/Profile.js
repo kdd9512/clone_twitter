@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {authService, dbService} from "../fbase";
 import {useHistory} from "react-router-dom";
 
-export default ({userObj, refreshUser}) => {
+export default ({userObj}) => {
 
     const history = useHistory();
     const [newDispName, setNewDispName] = useState(userObj.displayName);
@@ -37,25 +37,35 @@ export default ({userObj, refreshUser}) => {
             await userObj.updateProfile({
                 displayName: newDispName,
             })
-            refreshUser();
         }
     };
 
     return (
-        <>
+        <div className="container">
             <span>My Profile</span>
             <br/>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="profileForm">
                 <input
                     onChange={onChange}
                     type="text"
+                    autoFocus
                     placeholder="DISPLAY NAME"
                     value={newDispName}
+                    className="formInput"
                 />
-                <input type="submit" value="UPDATE"/>
+                <input
+                    type="submit"
+                    value="UPDATE"
+                    className="formBtn"
+                    style={{
+                        marginTop: 10,
+                    }}
+                />
             </form>
-            <button onClick={onLogOutClick}>Sign Out</button>
-
-        </>
-    )
-};
+            <span
+                className="formBtn cancelBtn logOut"
+                onClick={onLogOutClick}>Log Out
+            </span>
+        </div>
+    );
+}
